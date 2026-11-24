@@ -4,6 +4,7 @@ import { useState } from 'react'
 export default function Dashboard() {
   const [assetType, setAssetType] = useState('Laptop')
   const [requestMessage, setRequestMessage] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [requests, setRequests] = useState({
     Laptop: null,
@@ -38,10 +39,9 @@ export default function Dashboard() {
     }))
 
     setRequestMessage(`${assetType} request submitted successfully.`)
-  }
-
-  function displayValue(value) {
-    return value || 'Not provided'
+    setIsModalOpen(false)
+    event.currentTarget.reset()
+    setAssetType('Laptop')
   }
 
   return (
@@ -58,140 +58,48 @@ export default function Dashboard() {
       </section>
 
       <div className="dashboard-grid">
-        <section className="booking-section dashboard-card">
-          <div className="dashboard-section-heading">
-            <div>
-              <p className="dashboard-eyebrow">GET STARTED</p>
-              <h3 className="section-heading">Booking Request</h3>
-              <p className="section-description">
-                Provide the details of the item you need.
-              </p>
+        <section className="booking-section">
+          <button
+            type="button"
+            className="booking-card dashboard-card"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <div className="booking-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M12 5v14M5 12h14"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
             </div>
-          </div>
 
-          <form className="booking-form" onSubmit={handleSubmit}>
-            <label htmlFor="assetType">Select request type</label>
-            <select
-              id="assetType"
-              value={assetType}
-              onChange={(event) => {
-                setAssetType(event.target.value)
-                setRequestMessage('')
-              }}
-            >
-              <option value="Laptop">Laptop</option>
-              <option value="Graduation Gown">Graduation Gown</option>
-            </select>
+            <p className="dashboard-eyebrow">GET STARTED</p>
+            <h3 className="section-heading">Booking Request</h3>
+            <p className="section-description">
+              Click here to request learning equipment or graduation items.
+            </p>
 
-            <label htmlFor="participantId">Participant ID</label>
-            <input
-              id="participantId"
-              name="participantId"
-              type="text"
-              placeholder="Enter your participant ID"
-              required
-            />
-
-            {assetType === 'Laptop' ? (
-              <>
-                <div className="form-divider">
-                  <span>Equipment Details</span>
-                </div>
-
-                <label htmlFor="pcType">Type of PC</label>
-                <select id="pcType" name="pcType" required>
-                  <option value="">Select PC type</option>
-                  <option value="Laptop">Laptop</option>
-                  <option value="Desktop">Desktop</option>
-                </select>
-
-                <label htmlFor="serialNumber">Serial Number</label>
-                <input
-                  id="serialNumber"
-                  name="serialNumber"
-                  type="text"
-                  placeholder="Enter serial number"
-                  required
+            <span className="booking-card-action">
+              Make a request
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M5 12h14m-6-6 6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
+              </svg>
+            </span>
+          </button>
 
-                <label htmlFor="accessories">Required accessories</label>
-                <input
-                  id="accessories"
-                  name="accessories"
-                  type="text"
-                  placeholder="E.g. charger, extension cable"
-                />
-
-                <div className="form-date-grid">
-                  <div>
-                    <label htmlFor="pickupDate">Pickup date</label>
-                    <input
-                      id="pickupDate"
-                      name="pickupDate"
-                      type="date"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="returnDate">Expected return date</label>
-                    <input
-                      id="returnDate"
-                      name="returnDate"
-                      type="date"
-                      required
-                    />
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="form-divider">
-                  <span>Graduation Details</span>
-                </div>
-
-                <label htmlFor="gownSize">Gown size</label>
-                <select id="gownSize" name="gownSize" required>
-                  <option value="">Select your size</option>
-                  <option value="S">Small</option>
-                  <option value="M">Medium</option>
-                  <option value="L">Large</option>
-                  <option value="XL">Extra Large</option>
-                  <option value="XXL">XX Large</option>
-                </select>
-
-                <div className="gown-items">
-                  <p>Graduation items required</p>
-
-                  <label className="form-checkbox">
-                    <input type="checkbox" name="hat" />
-                    <span>Graduation Hat</span>
-                  </label>
-
-                  <label className="form-checkbox">
-                    <input type="checkbox" name="stole" />
-                    <span>Graduation Stole</span>
-                  </label>
-                </div>
-
-                <label htmlFor="graduationDate">Graduation date</label>
-                <input
-                  id="graduationDate"
-                  name="graduationDate"
-                  type="date"
-                  required
-                />
-              </>
-            )}
-
-            <button type="submit" className="primary-button">
-              Submit Request
-            </button>
-
-            {requestMessage && (
-              <p role="status">{requestMessage}</p>
-            )}
-          </form>
+          {requestMessage && (
+            <p className="request-success" role="status">
+              {requestMessage}
+            </p>
+          )}
         </section>
 
         <section className="allocations-section dashboard-card">
@@ -221,7 +129,7 @@ export default function Dashboard() {
                 <div className="allocation-details">
                   <div>
                     <span>Participant ID</span>
-                    <strong>{displayValue(requests.Laptop.participantId)}</strong>
+                    <strong>{requests.Laptop.participantId}</strong>
                   </div>
                   <div>
                     <span>PC Type</span>
@@ -273,9 +181,7 @@ export default function Dashboard() {
                 <div className="allocation-details">
                   <div>
                     <span>Participant ID</span>
-                    <strong>
-                      {displayValue(requests['Graduation Gown'].participantId)}
-                    </strong>
+                    <strong>{requests['Graduation Gown'].participantId}</strong>
                   </div>
                   <div>
                     <span>Gown Size</span>
@@ -308,6 +214,172 @@ export default function Dashboard() {
           </div>
         </section>
       </div>
+
+      {isModalOpen && (
+        <div
+          className="modal-overlay"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <section
+            className="booking-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="booking-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="booking-modal-header">
+              <div>
+                <p className="dashboard-eyebrow">GET STARTED</p>
+                <h2 id="booking-modal-title">Booking Request</h2>
+                <p>Complete the form below to submit your request.</p>
+              </div>
+
+              <button
+                type="button"
+                className="modal-close-button"
+                aria-label="Close booking form"
+                onClick={() => setIsModalOpen(false)}
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="m6 6 12 12M18 6 6 18"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <form className="booking-form" onSubmit={handleSubmit}>
+              <label htmlFor="assetType">Select request type</label>
+              <select
+                id="assetType"
+                value={assetType}
+                onChange={(event) => setAssetType(event.target.value)}
+              >
+                <option value="Laptop">Laptop</option>
+                <option value="Graduation Gown">Graduation Gown</option>
+              </select>
+
+              <label htmlFor="participantId">Participant ID</label>
+              <input
+                id="participantId"
+                name="participantId"
+                type="text"
+                placeholder="Enter your participant ID"
+                required
+              />
+
+              {assetType === 'Laptop' ? (
+                <>
+                  <div className="form-divider">
+                    <span>Equipment Details</span>
+                  </div>
+
+                  <label htmlFor="pcType">Type of PC</label>
+                  <select id="pcType" name="pcType" required>
+                    <option value="">Select PC type</option>
+                    <option value="Laptop">Laptop</option>
+                    <option value="Desktop">Desktop</option>
+                  </select>
+
+                  <label htmlFor="serialNumber">Serial Number</label>
+                  <input
+                    id="serialNumber"
+                    name="serialNumber"
+                    type="text"
+                    placeholder="Enter serial number"
+                    required
+                  />
+
+                  <label htmlFor="accessories">Required accessories</label>
+                  <input
+                    id="accessories"
+                    name="accessories"
+                    type="text"
+                    placeholder="E.g. charger, extension cable"
+                  />
+
+                  <div className="form-date-grid">
+                    <div>
+                      <label htmlFor="pickupDate">Pickup date</label>
+                      <input
+                        id="pickupDate"
+                        name="pickupDate"
+                        type="date"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="returnDate">Expected return date</label>
+                      <input
+                        id="returnDate"
+                        name="returnDate"
+                        type="date"
+                        required
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="form-divider">
+                    <span>Graduation Details</span>
+                  </div>
+
+                  <label htmlFor="gownSize">Gown size</label>
+                  <select id="gownSize" name="gownSize" required>
+                    <option value="">Select your size</option>
+                    <option value="S">Small</option>
+                    <option value="M">Medium</option>
+                    <option value="L">Large</option>
+                    <option value="XL">Extra Large</option>
+                    <option value="XXL">XX Large</option>
+                  </select>
+
+                  <div className="gown-items">
+                    <p>Graduation items required</p>
+
+                    <label className="form-checkbox">
+                      <input type="checkbox" name="hat" />
+                      <span>Graduation Hat</span>
+                    </label>
+
+                    <label className="form-checkbox">
+                      <input type="checkbox" name="stole" />
+                      <span>Graduation Stole</span>
+                    </label>
+                  </div>
+
+                  <label htmlFor="graduationDate">Graduation date</label>
+                  <input
+                    id="graduationDate"
+                    name="graduationDate"
+                    type="date"
+                    required
+                  />
+                </>
+              )}
+
+              <div className="booking-modal-actions">
+                <button
+                  type="button"
+                  className="secondary-button"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Cancel
+                </button>
+
+                <button type="submit" className="primary-button">
+                  Submit Request
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      )}
     </main>
   )
 }
