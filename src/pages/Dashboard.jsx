@@ -66,8 +66,8 @@ export default function Dashboard() {
                 <label htmlFor="pcType">Type of PC</label>
                 <select id="pcType" required>
                   <option value="">Select PC type</option>
-                  <option value="Laptop">Hp</option>
-                  <option value="Desktop">Lenovo</option>
+                  <option value="Laptop">Laptop</option>
+                  <option value="Desktop">Desktop</option>
                 </select>
 
                 <label htmlFor="serialNumber">Serial Number</label>
@@ -147,25 +147,81 @@ export default function Dashboard() {
               <p className="dashboard-eyebrow">YOUR ITEMS</p>
               <h3 className="section-heading">My Current Allocations</h3>
               <p className="section-description">
-                Keep track of your approved bookings and return dates.
+                Track your equipment and graduation items.
               </p>
             </div>
           </div>
 
           <div className="allocation-card">
             <div className="allocation-card-heading">
-              <h4>Laptop</h4>
+              <div>
+                <p className="allocation-category">LEARNING EQUIPMENT</p>
+                <h4>Laptop</h4>
+              </div>
               <span className="allocation-status">Not assigned</span>
             </div>
-            <p>No laptop has been assigned to you yet.</p>
+
+            <div className="allocation-details">
+              <div>
+                <span>PC Type</span>
+                <strong>Not assigned</strong>
+              </div>
+              <div>
+                <span>Serial Number</span>
+                <strong>Not assigned</strong>
+              </div>
+              <div>
+                <span>Accessories</span>
+                <strong>Not assigned</strong>
+              </div>
+              <div>
+                <span>Pickup Date</span>
+                <strong>Pending approval</strong>
+              </div>
+              <div>
+                <span>Return Date</span>
+                <strong>Pending approval</strong>
+              </div>
+            </div>
+
+            <p className="allocation-note">
+              Your laptop allocation details will appear here once your
+              request has been approved.
+            </p>
           </div>
 
           <div className="allocation-card" id="gowns">
             <div className="allocation-card-heading">
-              <h4>Graduation Gown</h4>
+              <div>
+                <p className="allocation-category">GRADUATION ATTIRE</p>
+                <h4>Graduation Gown</h4>
+              </div>
               <span className="allocation-status">Not reserved</span>
             </div>
-            <p>You do not have a graduation gown reservation yet.</p>
+
+            <div className="allocation-details">
+              <div>
+                <span>Gown Size</span>
+                <strong>Not selected</strong>
+              </div>
+              <div>
+                <span>Graduation Hat</span>
+                <strong>Not reserved</strong>
+              </div>
+              <div>
+                <span>Graduation Stole</span>
+                <strong>Not reserved</strong>
+              </div>
+              <div>
+                <span>Graduation Date</span>
+                <strong>Not scheduled</strong>
+              </div>
+            </div>
+
+            <p className="allocation-note">
+              Your graduation attire details will appear here once your
+              reservation has been approved.
+            </p>
           </div>
         </section>
       </div>
