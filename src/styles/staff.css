@@ -957,3 +957,149 @@
     padding: 15px;
   }
 }
+/* Staff Dashboard Responsive Improvements */
+
+@media (max-width: 1200px) {
+  .staff-main {
+    padding: 30px 28px;
+  }
+
+  .staff-overview-grid,
+  .staff-availability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .staff-request-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .staff-request-actions {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .staff-sidebar {
+    width: 220px;
+  }
+
+  .staff-main {
+    margin-left: 220px;
+    padding: 26px 22px;
+  }
+
+  .staff-gown-summary,
+  .staff-asset-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .staff-welcome {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 650px) {
+  .staff-sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .staff-main {
+    margin-left: 0;
+    padding: 22px 16px;
+  }
+
+  .staff-topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .staff-topbar h1 {
+    font-size: 23px;
+  }
+
+  .staff-welcome {
+    min-height: auto;
+    padding: 26px 22px;
+  }
+
+  .staff-welcome-decoration {
+    display: none;
+  }
+
+  .staff-overview-grid,
+  .staff-availability-grid,
+  .staff-gown-summary,
+  .staff-asset-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .staff-stat-card,
+  .staff-availability-card,
+  .staff-gown-summary article,
+  .staff-asset-summary article {
+    padding: 16px;
+  }
+
+  .staff-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .staff-request-card {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 17px;
+  }
+
+  .staff-request-actions {
+    grid-column: auto;
+    flex-wrap: wrap;
+  }
+
+  .staff-asset-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 15px;
+    padding: 17px;
+  }
+
+  .staff-asset-search {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .staff-gown-table,
+  .staff-asset-table {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 400px) {
+  .staff-main {
+    padding: 18px 12px;
+  }
+
+  .staff-overview-grid,
+  .staff-availability-grid,
+  .staff-gown-summary,
+  .staff-asset-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-welcome {
+    padding: 23px 18px;
+  }
+
+  .staff-welcome h2 {
+    font-size: 22px;
+  }
+
+  .staff-request-actions button {
+    flex: 1;
+  }
+}
