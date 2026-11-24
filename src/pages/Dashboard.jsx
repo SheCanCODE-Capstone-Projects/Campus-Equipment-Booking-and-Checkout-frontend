@@ -1,10 +1,21 @@
 
 import { useState } from 'react'
 
+function getToday() {
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
+}
+
 export default function Dashboard() {
   const [assetType, setAssetType] = useState('Laptop')
   const [requestMessage, setRequestMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [pickupDate, setPickupDate] = useState('')
 
   const [requests, setRequests] = useState({
     Laptop: null,
@@ -14,17 +25,27 @@ export default function Dashboard() {
   function handleSubmit(event) {
     event.preventDefault()
 
-    const formData = new FormData(event.currentTarget)
+    const form = event.currentTarget
+    const formData = new FormData(form)
+
+    if (assetType === 'Laptop') {
+      const returnDate = formData.get('returnDate')
+
+      if (returnDate <= pickupDate) {
+        setErrorMessage('Return date must be after the pickup date.')
+        return
+      }
+    }
 
     const request = {
       participantId: formData.get('participantId'),
+      status: 'Pending Review',
     }
 
     if (assetType === 'Laptop') {
       request.pcType = formData.get('pcType')
-      request.serialNumber = formData.get('serialNumber')
       request.accessories = formData.get('accessories') || 'None specified'
-      request.pickupDate = formData.get('pickupDate')
+      request.pickupDate = pickupDate
       request.returnDate = formData.get('returnDate')
     } else {
       request.gownSize = formData.get('gownSize')
@@ -39,8 +60,17 @@ export default function Dashboard() {
     }))
 
     setRequestMessage(`${assetType} request submitted successfully.`)
+    setErrorMessage('')
     setIsModalOpen(false)
-    event.currentTarget.reset()
+    setPickupDate('')
+    setAssetType('Laptop')
+    form.reset()
+  }
+
+  function closeModal() {
+    setIsModalOpen(false)
+    setErrorMessage('')
+    setPickupDate('')
     setAssetType('Laptop')
   }
 
@@ -62,7 +92,11 @@ export default function Dashboard() {
           <button
             type="button"
             className="booking-card dashboard-card"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setIsModalOpen(true)
+              setRequestMessage('')
+              setErrorMessage('')
+            }}
           >
             <div className="booking-card-icon">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -120,7 +154,7 @@ export default function Dashboard() {
                 <h4>Laptop</h4>
               </div>
               <span className="allocation-status">
-                {requests.Laptop ? 'Pending Review' : 'Not assigned'}
+                {requests.Laptop ? requests.Laptop.status : 'Not assigned'}
               </span>
             </div>
 
@@ -137,7 +171,7 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <span>Serial Number</span>
-                    <strong>{requests.Laptop.serialNumber}</strong>
+                    <strong>Pending assignment</strong>
                   </div>
                   <div>
                     <span>Accessories</span>
@@ -172,7 +206,9 @@ export default function Dashboard() {
                 <h4>Graduation Gown</h4>
               </div>
               <span className="allocation-status">
-                {requests['Graduation Gown'] ? 'Pending Review' : 'Not reserved'}
+                {requests['Graduation Gown']
+                  ? requests['Graduation Gown'].status
+                  : 'Not reserved'}
               </span>
             </div>
 
@@ -216,10 +252,7 @@ export default function Dashboard() {
       </div>
 
       {isModalOpen && (
-        <div
-          className="modal-overlay"
-          onClick={() => setIsModalOpen(false)}
-        >
+        <div className="modal-overlay" onClick={closeModal}>
           <section
             className="booking-modal"
             role="dialog"
@@ -238,7 +271,7 @@ export default function Dashboard() {
                 type="button"
                 className="modal-close-button"
                 aria-label="Close booking form"
-                onClick={() => setIsModalOpen(false)}
+                onClick={closeModal}
               >
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path
@@ -256,7 +289,11 @@ export default function Dashboard() {
               <select
                 id="assetType"
                 value={assetType}
-                onChange={(event) => setAssetType(event.target.value)}
+                onChange={(event) => {
+                  setAssetType(event.target.value)
+                  setErrorMessage('')
+                  setPickupDate('')
+                }}
               >
                 <option value="Laptop">Laptop</option>
                 <option value="Graduation Gown">Graduation Gown</option>
@@ -284,15 +321,6 @@ export default function Dashboard() {
                     <option value="Desktop">Desktop</option>
                   </select>
 
-                  <label htmlFor="serialNumber">Serial Number</label>
-                  <input
-                    id="serialNumber"
-                    name="serialNumber"
-                    type="text"
-                    placeholder="Enter serial number"
-                    required
-                  />
-
                   <label htmlFor="accessories">Required accessories</label>
                   <input
                     id="accessories"
@@ -308,6 +336,12 @@ export default function Dashboard() {
                         id="pickupDate"
                         name="pickupDate"
                         type="date"
+                        min={getToday()}
+                        value={pickupDate}
+                        onChange={(event) => {
+                          setPickupDate(event.target.value)
+                          setErrorMessage('')
+                        }}
                         required
                       />
                     </div>
@@ -318,6 +352,7 @@ export default function Dashboard() {
                         id="returnDate"
                         name="returnDate"
                         type="date"
+                        min={pickupDate || getToday()}
                         required
                       />
                     </div>
@@ -358,16 +393,23 @@ export default function Dashboard() {
                     id="graduationDate"
                     name="graduationDate"
                     type="date"
+                    min={getToday()}
                     required
                   />
                 </>
+              )}
+
+              {errorMessage && (
+                <p className="booking-error" role="alert">
+                  {errorMessage}
+                </p>
               )}
 
               <div className="booking-modal-actions">
                 <button
                   type="button"
                   className="secondary-button"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={closeModal}
                 >
                   Cancel
                 </button>
