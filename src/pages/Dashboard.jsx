@@ -22,8 +22,16 @@ export default function Dashboard() {
     'Graduation Gown': null,
   })
 
+  const laptopRequested = Boolean(requests.Laptop)
+  const gownRequested = Boolean(requests['Graduation Gown'])
+
   function handleSubmit(event) {
     event.preventDefault()
+
+    if (requests[assetType]) {
+      setErrorMessage(`You already have a ${assetType} request.`)
+      return
+    }
 
     const form = event.currentTarget
     const formData = new FormData(form)
@@ -40,6 +48,7 @@ export default function Dashboard() {
     const request = {
       participantId: formData.get('participantId'),
       status: 'Pending Review',
+      submittedDate: new Date().toLocaleDateString(),
     }
 
     if (assetType === 'Laptop') {
@@ -67,6 +76,18 @@ export default function Dashboard() {
     form.reset()
   }
 
+  function openModal() {
+    setIsModalOpen(true)
+    setRequestMessage('')
+    setErrorMessage('')
+
+    if (laptopRequested && !gownRequested) {
+      setAssetType('Graduation Gown')
+    } else {
+      setAssetType('Laptop')
+    }
+  }
+
   function closeModal() {
     setIsModalOpen(false)
     setErrorMessage('')
@@ -92,11 +113,8 @@ export default function Dashboard() {
           <button
             type="button"
             className="booking-card dashboard-card"
-            onClick={() => {
-              setIsModalOpen(true)
-              setRequestMessage('')
-              setErrorMessage('')
-            }}
+            onClick={openModal}
+            disabled={laptopRequested && gownRequested}
           >
             <div className="booking-card-icon">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -112,11 +130,15 @@ export default function Dashboard() {
             <p className="dashboard-eyebrow">GET STARTED</p>
             <h3 className="section-heading">Booking Request</h3>
             <p className="section-description">
-              Click here to request learning equipment or graduation items.
+              {laptopRequested && gownRequested
+                ? 'You have already submitted both available request types.'
+                : 'Click here to request learning equipment or graduation items.'}
             </p>
 
             <span className="booking-card-action">
-              Make a request
+              {laptopRequested && gownRequested
+                ? 'All requests submitted'
+                : 'Make a request'}
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M5 12h14m-6-6 6 6-6 6"
@@ -147,35 +169,36 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="allocation-card">
-            <div className="allocation-card-heading">
-              <div>
-                <p className="allocation-category">LEARNING EQUIPMENT</p>
-                <h4>Laptop</h4>
-              </div>
-              <span className="allocation-status">
-                {requests.Laptop ? requests.Laptop.status : 'Not assigned'}
-              </span>
+          <div className="allocation-history">
+            <div className="history-section-heading">
+              <p className="allocation-category">LEARNING EQUIPMENT</p>
+              <span>{laptopRequested ? '1 request' : '0 requests'}</span>
             </div>
 
             {requests.Laptop ? (
-              <>
+              <div className="allocation-card">
+                <div className="allocation-card-heading">
+                  <div>
+                    <p className="allocation-category">LAPTOP REQUEST</p>
+                    <h4>{requests.Laptop.pcType}</h4>
+                  </div>
+                  <span className="allocation-status">
+                    {requests.Laptop.status}
+                  </span>
+                </div>
+
                 <div className="allocation-details">
                   <div>
                     <span>Participant ID</span>
                     <strong>{requests.Laptop.participantId}</strong>
                   </div>
                   <div>
-                    <span>PC Type</span>
-                    <strong>{requests.Laptop.pcType}</strong>
+                    <span>Accessories</span>
+                    <strong>{requests.Laptop.accessories}</strong>
                   </div>
                   <div>
                     <span>Serial Number</span>
                     <strong>Pending assignment</strong>
-                  </div>
-                  <div>
-                    <span>Accessories</span>
-                    <strong>{requests.Laptop.accessories}</strong>
                   </div>
                   <div>
                     <span>Pickup Date</span>
@@ -185,35 +208,44 @@ export default function Dashboard() {
                     <span>Return Date</span>
                     <strong>{requests.Laptop.returnDate}</strong>
                   </div>
+                  <div>
+                    <span>Submitted</span>
+                    <strong>{requests.Laptop.submittedDate}</strong>
+                  </div>
                 </div>
 
                 <p className="allocation-note">
                   Your laptop request is awaiting staff review.
                 </p>
-              </>
+              </div>
             ) : (
-              <p className="allocation-note">
-                Your laptop allocation details will appear here once you
-                submit a request.
-              </p>
+              <div className="allocation-card">
+                <h4>No laptop request yet</h4>
+                <p className="allocation-note">
+                  Your laptop request will appear here after submission.
+                </p>
+              </div>
             )}
           </div>
 
-          <div className="allocation-card" id="gowns">
-            <div className="allocation-card-heading">
-              <div>
-                <p className="allocation-category">GRADUATION ATTIRE</p>
-                <h4>Graduation Gown</h4>
-              </div>
-              <span className="allocation-status">
-                {requests['Graduation Gown']
-                  ? requests['Graduation Gown'].status
-                  : 'Not reserved'}
-              </span>
+          <div className="allocation-history">
+            <div className="history-section-heading">
+              <p className="allocation-category">GRADUATION ATTIRE</p>
+              <span>{gownRequested ? '1 request' : '0 requests'}</span>
             </div>
 
             {requests['Graduation Gown'] ? (
-              <>
+              <div className="allocation-card">
+                <div className="allocation-card-heading">
+                  <div>
+                    <p className="allocation-category">GOWN REQUEST</p>
+                    <h4>Graduation Gown</h4>
+                  </div>
+                  <span className="allocation-status">
+                    {requests['Graduation Gown'].status}
+                  </span>
+                </div>
+
                 <div className="allocation-details">
                   <div>
                     <span>Participant ID</span>
@@ -235,17 +267,23 @@ export default function Dashboard() {
                     <span>Graduation Date</span>
                     <strong>{requests['Graduation Gown'].graduationDate}</strong>
                   </div>
+                  <div>
+                    <span>Submitted</span>
+                    <strong>{requests['Graduation Gown'].submittedDate}</strong>
+                  </div>
                 </div>
 
                 <p className="allocation-note">
                   Your graduation gown request is awaiting staff review.
                 </p>
-              </>
+              </div>
             ) : (
-              <p className="allocation-note">
-                Your graduation attire details will appear here once you
-                submit a reservation.
-              </p>
+              <div className="allocation-card">
+                <h4>No gown request yet</h4>
+                <p className="allocation-note">
+                  Your graduation gown request will appear here after submission.
+                </p>
+              </div>
             )}
           </div>
         </section>
@@ -295,107 +333,125 @@ export default function Dashboard() {
                   setPickupDate('')
                 }}
               >
-                <option value="Laptop">Laptop</option>
-                <option value="Graduation Gown">Graduation Gown</option>
+                <option value="Laptop" disabled={laptopRequested}>
+                  Laptop {laptopRequested ? '(Already requested)' : ''}
+                </option>
+                <option
+                  value="Graduation Gown"
+                  disabled={gownRequested}
+                >
+                  Graduation Gown {gownRequested ? '(Already requested)' : ''}
+                </option>
               </select>
 
-              <label htmlFor="participantId">Participant ID</label>
-              <input
-                id="participantId"
-                name="participantId"
-                type="text"
-                placeholder="Enter your participant ID"
-                required
-              />
-
-              {assetType === 'Laptop' ? (
-                <>
-                  <div className="form-divider">
-                    <span>Equipment Details</span>
-                  </div>
-
-                  <label htmlFor="pcType">Type of PC</label>
-                  <select id="pcType" name="pcType" required>
-                    <option value="">Select PC type</option>
-                    <option value="Laptop">Laptop</option>
-                    <option value="Desktop">Desktop</option>
-                  </select>
-
-                  <label htmlFor="accessories">Required accessories</label>
-                  <input
-                    id="accessories"
-                    name="accessories"
-                    type="text"
-                    placeholder="E.g. charger, extension cable"
-                  />
-
-                  <div className="form-date-grid">
-                    <div>
-                      <label htmlFor="pickupDate">Pickup date</label>
-                      <input
-                        id="pickupDate"
-                        name="pickupDate"
-                        type="date"
-                        min={getToday()}
-                        value={pickupDate}
-                        onChange={(event) => {
-                          setPickupDate(event.target.value)
-                          setErrorMessage('')
-                        }}
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="returnDate">Expected return date</label>
-                      <input
-                        id="returnDate"
-                        name="returnDate"
-                        type="date"
-                        min={pickupDate || getToday()}
-                        required
-                      />
-                    </div>
-                  </div>
-                </>
+              {requests[assetType] ? (
+                <p className="booking-error" role="alert">
+                  You have already submitted this request. Please select the
+                  other request type.
+                </p>
               ) : (
                 <>
-                  <div className="form-divider">
-                    <span>Graduation Details</span>
-                  </div>
-
-                  <label htmlFor="gownSize">Gown size</label>
-                  <select id="gownSize" name="gownSize" required>
-                    <option value="">Select your size</option>
-                    <option value="S">Small</option>
-                    <option value="M">Medium</option>
-                    <option value="L">Large</option>
-                    <option value="XL">Extra Large</option>
-                    <option value="XXL">XX Large</option>
-                  </select>
-
-                  <div className="gown-items">
-                    <p>Graduation items required</p>
-
-                    <label className="form-checkbox">
-                      <input type="checkbox" name="hat" />
-                      <span>Graduation Hat</span>
-                    </label>
-
-                    <label className="form-checkbox">
-                      <input type="checkbox" name="stole" />
-                      <span>Graduation Stole</span>
-                    </label>
-                  </div>
-
-                  <label htmlFor="graduationDate">Graduation date</label>
+                  <label htmlFor="participantId">Participant ID</label>
                   <input
-                    id="graduationDate"
-                    name="graduationDate"
-                    type="date"
-                    min={getToday()}
+                    id="participantId"
+                    name="participantId"
+                    type="text"
+                    placeholder="Enter your participant ID"
                     required
                   />
+
+                  {assetType === 'Laptop' ? (
+                    <>
+                      <div className="form-divider">
+                        <span>Equipment Details</span>
+                      </div>
+
+                      <label htmlFor="pcType">Type of PC</label>
+                      <select id="pcType" name="pcType" required>
+                        <option value="">Select PC type</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Desktop">Desktop</option>
+                      </select>
+
+                      <label htmlFor="accessories">Required accessories</label>
+                      <input
+                        id="accessories"
+                        name="accessories"
+                        type="text"
+                        placeholder="E.g. charger, extension cable"
+                      />
+
+                      <div className="form-date-grid">
+                        <div>
+                          <label htmlFor="pickupDate">Pickup date</label>
+                          <input
+                            id="pickupDate"
+                            name="pickupDate"
+                            type="date"
+                            min={getToday()}
+                            value={pickupDate}
+                            onChange={(event) => {
+                              setPickupDate(event.target.value)
+                              setErrorMessage('')
+                            }}
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label htmlFor="returnDate">
+                            Expected return date
+                          </label>
+                          <input
+                            id="returnDate"
+                            name="returnDate"
+                            type="date"
+                            min={pickupDate || getToday()}
+                            required
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="form-divider">
+                        <span>Graduation Details</span>
+                      </div>
+
+                      <label htmlFor="gownSize">Gown size</label>
+                      <select id="gownSize" name="gownSize" required>
+                        <option value="">Select your size</option>
+                        <option value="S">Small</option>
+                        <option value="M">Medium</option>
+                        <option value="L">Large</option>
+                        <option value="XL">Extra Large</option>
+                        <option value="XXL">XX Large</option>
+                      </select>
+
+                      <div className="gown-items">
+                        <p>Graduation items required</p>
+
+                        <label className="form-checkbox">
+                          <input type="checkbox" name="hat" />
+                          <span>Graduation Hat</span>
+                        </label>
+
+                        <label className="form-checkbox">
+                          <input type="checkbox" name="stole" />
+                          <span>Graduation Stole</span>
+                        </label>
+                      </div>
+
+                      <label htmlFor="graduationDate">Graduation date</label>
+                      <input
+                        id="graduationDate"
+                        name="graduationDate"
+                        type="date"
+                        min={getToday()}
+                        required
+                      />
+                    </>
+                  )}
                 </>
               )}
 
@@ -414,9 +470,11 @@ export default function Dashboard() {
                   Cancel
                 </button>
 
-                <button type="submit" className="primary-button">
-                  Submit Request
-                </button>
+                {!requests[assetType] && (
+                  <button type="submit" className="primary-button">
+                    Submit Request
+                  </button>
+                )}
               </div>
             </form>
           </section>

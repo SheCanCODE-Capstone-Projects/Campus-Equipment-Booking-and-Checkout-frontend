@@ -947,3 +947,30 @@ body {
   font-size: 13px;
   font-weight: 600;
 }
+
+.allocation-history {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.history-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.history-section-heading > span {
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: rgba(183, 121, 31, 0.12);
+  color: var(--forest-green);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.allocation-history .allocation-card {
+  margin-top: 0;
+}
