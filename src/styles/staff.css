@@ -291,8 +291,8 @@
 .staff-stat-card > strong {
   display: block;
   color: var(--forest-green);
-  font-size: 29px;
-  font-weight: 800;
+  font-size: 25px;
+  font-weight: 700;
 }
 
 .staff-stat-card > p {
@@ -598,5 +598,142 @@
 
   .staff-request-actions {
     grid-column: auto;
+  }
+}
+
+/* Staff Gown Logistics */
+.staff-gown-section {
+  margin-top: 38px;
+  margin-bottom: 40px;
+}
+
+.staff-gown-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+  margin-bottom: 22px;
+}
+
+.staff-gown-summary article {
+  padding: 21px;
+  border: 1px solid rgba(20, 61, 35, 0.12);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.staff-gown-summary article span {
+  display: block;
+  margin-bottom: 12px;
+  color: #7b847d;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.staff-gown-summary article strong {
+  color: var(--forest-green);
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.staff-gown-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid rgba(20, 61, 35, 0.12);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.staff-gown-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.staff-gown-table th {
+  padding: 16px;
+  background: #f5f7f3;
+  color: var(--forest-green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+.staff-gown-table td {
+  padding: 17px 16px;
+  border-top: 1px solid #edf0eb;
+  color: #56635a;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.staff-gown-table tbody tr:hover {
+  background: #fafbf9;
+}
+
+.staff-gown-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.staff-gown-status.assigned {
+  background: #fff3df;
+  color: #a56b17;
+}
+
+.staff-gown-status.collected {
+  background: #e8f2e8;
+  color: #28633a;
+}
+
+.staff-gown-status.returned {
+  background: #edf0f5;
+  color: #53677c;
+}
+
+.staff-gown-action {
+  min-height: 32px;
+  padding: 0 11px;
+  border: none;
+  border-radius: 5px;
+  background: var(--forest-green);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.staff-gown-action:hover {
+  background: #205332;
+}
+
+.staff-gown-action.returned {
+  background: var(--golden-orange);
+}
+
+.staff-gown-action.returned:hover {
+  background: #966017;
+}
+
+.staff-gown-complete {
+  color: #68736b;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .staff-gown-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  .staff-gown-summary {
+    grid-template-columns: 1fr;
   }
 }
