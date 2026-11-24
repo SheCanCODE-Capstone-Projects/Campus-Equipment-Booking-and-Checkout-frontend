@@ -1,0 +1,76 @@
+
+/* Shared page layout */
+.page-container {
+  width: min(1200px, 84%);
+  margin: 0 auto;
+}
+
+.section-heading {
+  margin: 0;
+  color: var(--forest-green);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.section-description {
+  margin: 8px 0 0;
+  color: var(--forest-green);
+  opacity: 0.7;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Shared card style */
+.dashboard-card {
+  padding: 24px;
+  background: var(--warm-off-white);
+  border: 1px solid rgba(20, 61, 35, 0.12);
+  border-radius: 10px;
+}
+
+/* Shared buttons */
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--forest-green);
+  border-radius: 6px;
+  background: var(--forest-green);
+  color: var(--warm-off-white);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.primary-button:hover {
+  background: var(--golden-orange);
+  border-color: var(--golden-orange);
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--golden-orange);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--forest-green);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .page-container {
+    width: 90%;
+  }
+
+  .dashboard-card {
+    padding: 18px;
+  }
+}

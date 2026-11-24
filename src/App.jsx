@@ -1,15 +1,15 @@
 
 import Navbar from './components/Navbar'
+import HeroSection from './components/HeroSection'
+import Dashboard from './pages/Dashboard'
 import './App.css'
 
 export default function App() {
   return (
     <>
       <Navbar />
-      <main className="dashboard-placeholder">
-        <h1>Welcome to SheCanCODE</h1>
-        <p>Your equipment booking portal.</p>
-      </main>
+      <HeroSection />
+      <Dashboard />
     </>
   )
 }

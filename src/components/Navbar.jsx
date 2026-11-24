@@ -8,7 +8,6 @@ export default function Navbar() {
     { label: 'Home', href: '#home' },
     { label: 'Equipment', href: '#equipment' },
     { label: 'Graduation Gowns', href: '#gowns' },
-    { label: 'Student Hub', href: '#student-hub' },
   ]
 
   return (
@@ -16,10 +15,9 @@ export default function Navbar() {
       <a href="#home" className="navbar-brand">
         <img
           src="https://www.igirerwanda.org/_next/image?url=%2Fimages%2Flogo-igire.png&w=256&q=90&dpl=dpl_296bSSneJRAk64gPTxdCWgdmko5G"
-          alt="Igire Rwanda logo"
+          alt="Igire Rwanda"
           className="navbar-logo"
         />
-       
       </a>
 
       <button
@@ -47,17 +45,18 @@ export default function Navbar() {
       </nav>
 
       <div className="navbar-actions">
-        <button className="switch-role-button" type="button">
-          Switch Role
-        </button>
+        <a href="#student-hub" className="student-hub">
+          <span></span>
+          STUDENT HUB
+        </a>
 
-        <div className="navbar-profile">
-          <div className="profile-avatar">P</div>
-          <div className="profile-details">
-            <span className="profile-name">Participant</span>
-            <span className="profile-role">Student Account</span>
-          </div>
-        </div>
+        <button
+          className="profile-avatar"
+          type="button"
+          aria-label="Participant profile"
+        >
+          P
+        </button>
       </div>
     </header>
   )
