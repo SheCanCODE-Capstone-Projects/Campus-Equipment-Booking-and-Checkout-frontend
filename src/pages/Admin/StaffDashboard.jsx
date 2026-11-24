@@ -1,10 +1,11 @@
-
 import StaffSidebar from '../../components/StaffSidebar'
 import InventoryOverview from '../../components/InventoryOverview'
 import EquipmentAvailability from '../../components/EquipmentAvailability'
 import EquipmentApprovals from '../../components/EquipmentApprovals'
-import '../../styles/staff.css'
 import GownLogistics from '../../components/GownLogistics'
+import AssetRepository from '../../components/AssetRepository'
+import '../../styles/staff.css'
+
 export default function StaffDashboard() {
   return (
     <div className="staff-layout">
@@ -44,10 +45,10 @@ export default function StaffDashboard() {
         </section>
 
         <InventoryOverview />
-
         <EquipmentAvailability />
-         <GownLogistics />
         <EquipmentApprovals />
+        <GownLogistics />
+        <AssetRepository />
       </main>
     </div>
   )
