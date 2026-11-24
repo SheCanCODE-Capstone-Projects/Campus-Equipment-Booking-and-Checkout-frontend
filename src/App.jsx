@@ -2,6 +2,7 @@
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
 import Dashboard from './pages/Dashboard'
+import Footer from './components/Footer'
 import './App.css'
 
 export default function App() {
@@ -10,6 +11,7 @@ export default function App() {
       <Navbar />
       <HeroSection />
       <Dashboard />
+      <Footer />
     </>
   )
 }
