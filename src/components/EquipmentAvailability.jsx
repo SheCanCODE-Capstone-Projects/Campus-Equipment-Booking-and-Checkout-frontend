@@ -1,4 +1,3 @@
-
 export default function EquipmentAvailability() {
   const totalLaptops = 48
 
@@ -30,7 +29,10 @@ export default function EquipmentAvailability() {
   ]
 
   return (
-    <section className="staff-availability-section">
+    <section
+      className="staff-availability-section"
+      id="equipment-availability"
+    >
       <div className="staff-section-heading">
         <div>
           <p className="staff-eyebrow">EQUIPMENT STATUS</p>

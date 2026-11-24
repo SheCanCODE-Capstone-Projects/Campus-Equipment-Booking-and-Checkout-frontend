@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 
 export default function StaffSidebar() {
@@ -14,6 +13,16 @@ export default function StaffSidebar() {
           <rect x="14" y="3" width="7" height="7" rx="1" />
           <rect x="3" y="14" width="7" height="7" rx="1" />
           <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+      ),
+    },
+    {
+      label: 'Equipment Availability',
+      href: '#equipment-availability',
+      icon: (
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="4" width="18" height="13" rx="2" />
+          <path d="M2 21h20M8 17l-1 4m9-4 1 4" />
         </svg>
       ),
     },
