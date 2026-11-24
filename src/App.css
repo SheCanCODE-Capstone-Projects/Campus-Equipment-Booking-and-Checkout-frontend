@@ -134,8 +134,8 @@ body {
 }
 
 .hero-banner {
-  min-height: 187px;
-  padding: 35px 38px;
+  min-height: 260px;
+  padding: 48px 38px;
   display: flex;
   align-items: center;
   justify-content: space-between;
