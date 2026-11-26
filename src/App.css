@@ -330,7 +330,6 @@ body {
   }
 }
 
-
 .hero-primary-button svg,
 .hero-secondary-button svg {
   width: 19px;
@@ -343,13 +342,13 @@ body {
   flex-shrink: 0;
 }
 
-/* Keep the navbar contents aligned */
+/* KEEP THE NAVBAR CONTENTS ALIGNED */
+
 .navbar {
   box-sizing: border-box;
   width: 100%;
 }
 
-/* Student Hub and profile on the top right */
 .navbar-actions {
   display: flex;
   align-items: center;
@@ -375,7 +374,8 @@ body {
   text-decoration: none;
 }
 
-/* Center the main navigation links */
+/* CENTER THE MAIN NAVIGATION LINKS */
+
 .navbar {
   position: fixed;
   display: grid;
@@ -403,10 +403,10 @@ body {
   }
 }
 
-
 /* PARTICIPANT DASHBOARD */
+
 .participant-dashboard {
-  padding: 35px 8% 80px;
+  padding: 105px 8% 80px;
   background: var(--warm-off-white);
 }
 
@@ -467,6 +467,7 @@ body {
 }
 
 /* BOOKING FORM */
+
 .booking-form {
   display: flex;
   flex-direction: column;
@@ -520,6 +521,7 @@ body {
 }
 
 /* CURRENT ALLOCATIONS */
+
 .allocations-section {
   display: flex;
   flex-direction: column;
@@ -575,6 +577,7 @@ body {
 }
 
 /* RESPONSIVE DASHBOARD */
+
 @media (max-width: 900px) {
   .participant-dashboard {
     padding-right: 5%;
@@ -588,7 +591,7 @@ body {
 
 @media (max-width: 600px) {
   .participant-dashboard {
-    padding-top: 25px;
+    padding-top: 95px;
     padding-bottom: 50px;
   }
 
@@ -605,8 +608,8 @@ body {
   }
 }
 
-
 /* ALLOCATION DETAILS */
+
 .allocation-category {
   margin: 0 0 7px;
   color: var(--golden-orange);
@@ -667,7 +670,8 @@ body {
   }
 }
 
-/* Booking Request Card */
+/* BOOKING REQUEST CARD */
+
 .booking-card {
   width: 100%;
   min-height: 260px;
@@ -739,7 +743,8 @@ body {
   font-weight: 600;
 }
 
-/* Booking Modal */
+/* BOOKING MODAL */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -975,7 +980,7 @@ body {
   margin-top: 0;
 }
 
-/* Participant Footer */
+/* PARTICIPANT FOOTER */
 
 .site-footer {
   width: 100%;
@@ -989,7 +994,6 @@ body {
   color: var(--forest-green);
   box-shadow: 0 8px 24px rgba(20, 61, 35, 0.08);
 }
-
 
 .footer-top-border {
   width: 100%;
@@ -1138,7 +1142,8 @@ body {
   gap: 22px;
 }
 
-/* Footer Responsive Layout */
+/* FOOTER RESPONSIVE LAYOUT */
+
 @media (max-width: 900px) {
   .footer-content {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1177,7 +1182,8 @@ body {
   }
 }
 
-/* Staff Sidebar */
+/* STAFF SIDEBAR */
+
 .staff-sidebar {
   position: fixed;
   top: 0;
@@ -1331,6 +1337,9 @@ body {
   border-radius: 50%;
   background: #b9d7a8;
 }
+
+/* PREVIEW NAVIGATION */
+
 .preview-navigation {
   position: fixed;
   top: 0;
@@ -1343,29 +1352,6 @@ body {
   gap: 10px;
   padding: 12px 24px;
   background: #143D23;
-}
-
-.preview-navigation span {
-  margin-right: auto;
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-.preview-navigation button {
-  padding: 8px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 5px;
-  background: transparent;
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.preview-navigation button.active {
-  background: #B7791F;
-  border-color: #B7791F;
 }
 
 .preview-navigation span {
