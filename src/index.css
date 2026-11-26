@@ -1,0 +1,48 @@
+
+@import './styles/variables.css';
+@import './styles/global.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--warm-off-white);
+  color: var(--forest-green);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+:root {
+  --forest-green: #143D23;
+  --golden-orange: #B7791F;
+  --warm-off-white: #FAF9F6;
+}
+
+.preview-navigation {
+  position: fixed;
+  top: auto;
+  right: 20px;
+  bottom: 20px;
+  left: auto;
+  z-index: 99999;
+  width: fit-content;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
