@@ -1,0 +1,187 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.register-page {
+  min-height: 100vh;
+  background: #f4f7f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.register-container {
+  width: 100%;
+  max-width: 540px;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.register-header img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
+  /* background: #087b48;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 11px;
+  margin: 0 auto 8px; */
+}
+
+.register-header h1 {
+  color: #0b5a36;
+  font-size: 20px;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.register-header p {
+  color: #777;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.register-card {
+  background: white;
+  padding: 25px 28px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.register-title {
+  margin-bottom: 18px;
+}
+
+.register-title h2 {
+  color: #173d2b;
+  font-size: 21px;
+  margin-bottom: 6px;
+}
+
+.register-title p {
+  color: #888;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.name-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.register-group {
+  margin-bottom: 13px;
+}
+
+.register-group label {
+  display: block;
+  color: #444;
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.register-input {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #ddd;
+  padding: 0 11px;
+  border-radius: 6px;
+  color: #087b48;
+  transition: 0.2s;
+}
+
+.register-input:focus-within {
+  border-color: #087b48;
+  box-shadow: 0 0 0 2px rgba(8, 123, 72, 0.07);
+}
+
+.register-input input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px 0;
+  font-size: 12px;
+  background: transparent;
+  color: #333;
+}
+
+.register-input input::placeholder {
+  color: #aaa;
+}
+
+.create-account-btn {
+  width: 100%;
+  background: #087b48;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: 0.3s;
+}
+
+.create-account-btn:hover {
+  background: #066239;
+}
+
+.back-to-login {
+  text-align: center;
+  margin-top: 17px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  color: #777;
+  font-size: 12px;
+}
+
+.back-to-login a {
+  color: #087b48;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-to-login a:hover {
+  text-decoration: underline;
+}
+
+.register-footer {
+  text-align: center;
+  color: #999;
+  font-size: 11px;
+  margin-top: 15px;
+}
+
+/* RESPONSIVENESS */
+
+@media (max-width: 500px) {
+  .register-page {
+    padding: 15px;
+    align-items: flex-start;
+  }
+
+  .register-card {
+    padding: 22px 18px;
+  }
+
+  .name-fields {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .register-title h2 {
+    font-size: 19px;
+  }
+}

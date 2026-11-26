@@ -3,6 +3,7 @@ import { Routes, Route, Outlet } from 'react-router-dom'
 import LandingPage from '../components/landing/LandingPage'
 import Footer from '../components/Footer'
 import Login from '../pages/Login'
+import Register from '../pages/Register'
 import Dashboard from '../pages/Dashboard'
 import StaffDashboard from '../pages/Admin/StaffDashboard'
 
@@ -20,6 +21,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route element={<AppLayout />}>
         <Route
