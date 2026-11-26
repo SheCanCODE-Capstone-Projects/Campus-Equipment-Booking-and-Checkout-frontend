@@ -4,6 +4,7 @@ import LandingPage from '../components/landing/LandingPage'
 import Footer from '../components/Footer'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
+import Navbar from '../components/Navbar'
 import Dashboard from '../pages/Dashboard'
 import StaffDashboard from '../pages/Admin/StaffDashboard'
 
@@ -12,6 +13,15 @@ function AppLayout() {
     <>
       <Outlet />
       <Footer />
+    </>
+  )
+}
+
+function ParticipantLayout() {
+  return (
+    <>
+      <Navbar />
+      <Dashboard />
     </>
   )
 }
@@ -26,7 +36,7 @@ export default function AppRoutes() {
       <Route element={<AppLayout />}>
         <Route
           path="/participant/dashboard"
-          element={<Dashboard />}
+          element={<ParticipantLayout />}
         />
 
         <Route

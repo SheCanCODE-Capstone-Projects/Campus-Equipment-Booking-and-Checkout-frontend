@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function getToday() {
   const date = new Date()
@@ -10,17 +10,80 @@ function getToday() {
   return `${year}-${month}-${day}`
 }
 
+function getSavedRequests() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem('participantDashboardRequests') || '{}'
+    )
+
+    const staffRequests = JSON.parse(
+      localStorage.getItem('staffEquipmentRequests') || '[]'
+    )
+
+    function syncStatus(request) {
+      if (!request) return null
+
+      const staffRequest = staffRequests.find(
+        (item) =>
+          item.participantRequestId === request.id ||
+          item.id === `participant-${request.id}`
+      )
+
+      if (!staffRequest) return request
+
+      const statusLabels = {
+        Pending: 'Pending Review',
+        Approved: 'Approved',
+        Rejected: 'Rejected',
+      }
+
+      return {
+        ...request,
+        status: statusLabels[staffRequest.status] || request.status,
+        serialNumber: staffRequest.serialNumber || request.serialNumber || '',
+      }
+    }
+
+    const updatedRequests = {
+      Laptop: syncStatus(saved.Laptop || null),
+      'Graduation Gown': syncStatus(saved['Graduation Gown'] || null),
+    }
+
+    localStorage.setItem(
+      'participantDashboardRequests',
+      JSON.stringify(updatedRequests)
+    )
+
+    return updatedRequests
+  } catch {
+    return {
+      Laptop: null,
+      'Graduation Gown': null,
+    }
+  }
+}
+
 export default function Dashboard() {
   const [assetType, setAssetType] = useState('Laptop')
   const [requestMessage, setRequestMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [pickupDate, setPickupDate] = useState('')
+  const [requests, setRequests] = useState(getSavedRequests)
 
-  const [requests, setRequests] = useState({
-    Laptop: null,
-    'Graduation Gown': null,
-  })
+  useEffect(() => {
+    function refreshRequests() {
+      setRequests(getSavedRequests())
+    }
+
+    window.addEventListener('storage', refreshRequests)
+    window.addEventListener('focus', refreshRequests)
+
+    return () => {
+      window.removeEventListener('storage', refreshRequests)
+      window.removeEventListener('focus', refreshRequests)
+    }
+  }, [])
 
   const laptopRequested = Boolean(requests.Laptop)
   const gownRequested = Boolean(requests['Graduation Gown'])
@@ -46,7 +109,9 @@ export default function Dashboard() {
     }
 
     const request = {
-      participantId: formData.get('participantId'),
+      id: `${formData.get('participantId')}-${Date.now()}`,
+      name: formData.get('participantName').trim(),
+      participantId: formData.get('participantId').trim(),
       status: 'Pending Review',
       submittedDate: new Date().toLocaleDateString(),
     }
@@ -63,10 +128,48 @@ export default function Dashboard() {
       request.graduationDate = formData.get('graduationDate')
     }
 
-    setRequests((previous) => ({
-      ...previous,
-      [assetType]: request,
-    }))
+    try {
+      const updatedRequests = {
+        ...requests,
+        [assetType]: request,
+      }
+
+      const participantRequests = JSON.parse(
+        localStorage.getItem('participantEquipmentRequests') || '[]'
+      )
+
+      participantRequests.push({
+        id: request.id,
+        name: request.name,
+        participantId: request.participantId,
+        equipment: assetType === 'Laptop' ? request.pcType : 'Graduation Gown',
+        date: request.submittedDate,
+        purpose:
+          assetType === 'Laptop'
+            ? request.accessories
+            : `Gown size: ${request.gownSize}`,
+        pickupDate:
+          assetType === 'Laptop' ? request.pickupDate : request.graduationDate,
+        returnDate: assetType === 'Laptop' ? request.returnDate : '',
+        status: 'Pending',
+        serialNumber: '',
+      })
+
+      localStorage.setItem(
+        'participantEquipmentRequests',
+        JSON.stringify(participantRequests)
+      )
+
+      localStorage.setItem(
+        'participantDashboardRequests',
+        JSON.stringify(updatedRequests)
+      )
+
+      setRequests(updatedRequests)
+    } catch {
+      setErrorMessage('Unable to submit your request. Please try again.')
+      return
+    }
 
     setRequestMessage(`${assetType} request submitted successfully.`)
     setErrorMessage('')
@@ -189,6 +292,10 @@ export default function Dashboard() {
 
                 <div className="allocation-details">
                   <div>
+                    <span>Full Name</span>
+                    <strong>{requests.Laptop.name}</strong>
+                  </div>
+                  <div>
                     <span>Participant ID</span>
                     <strong>{requests.Laptop.participantId}</strong>
                   </div>
@@ -198,7 +305,9 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <span>Serial Number</span>
-                    <strong>Pending assignment</strong>
+                    <strong>
+                      {requests.Laptop.serialNumber || 'Pending assignment'}
+                    </strong>
                   </div>
                   <div>
                     <span>Pickup Date</span>
@@ -215,7 +324,11 @@ export default function Dashboard() {
                 </div>
 
                 <p className="allocation-note">
-                  Your laptop request is awaiting staff review.
+                  {requests.Laptop.status === 'Approved'
+                    ? 'Your laptop request has been approved.'
+                    : requests.Laptop.status === 'Rejected'
+                      ? 'Your laptop request was rejected. Please contact the staff team for more information.'
+                      : 'Your laptop request is awaiting staff review.'}
                 </p>
               </div>
             ) : (
@@ -248,6 +361,10 @@ export default function Dashboard() {
 
                 <div className="allocation-details">
                   <div>
+                    <span>Full Name</span>
+                    <strong>{requests['Graduation Gown'].name}</strong>
+                  </div>
+                  <div>
                     <span>Participant ID</span>
                     <strong>{requests['Graduation Gown'].participantId}</strong>
                   </div>
@@ -274,7 +391,11 @@ export default function Dashboard() {
                 </div>
 
                 <p className="allocation-note">
-                  Your graduation gown request is awaiting staff review.
+                  {requests['Graduation Gown'].status === 'Approved'
+                    ? 'Your graduation gown request has been approved.'
+                    : requests['Graduation Gown'].status === 'Rejected'
+                      ? 'Your graduation gown request was rejected. Please contact the staff team for more information.'
+                      : 'Your graduation gown request is awaiting staff review.'}
                 </p>
               </div>
             ) : (
@@ -336,10 +457,7 @@ export default function Dashboard() {
                 <option value="Laptop" disabled={laptopRequested}>
                   Laptop {laptopRequested ? '(Already requested)' : ''}
                 </option>
-                <option
-                  value="Graduation Gown"
-                  disabled={gownRequested}
-                >
+                <option value="Graduation Gown" disabled={gownRequested}>
                   Graduation Gown {gownRequested ? '(Already requested)' : ''}
                 </option>
               </select>
@@ -351,6 +469,16 @@ export default function Dashboard() {
                 </p>
               ) : (
                 <>
+                  <label htmlFor="participantName">Full Name</label>
+                  <input
+                    id="participantName"
+                    name="participantName"
+                    type="text"
+                    placeholder="Enter your full name"
+                    autoComplete="name"
+                    required
+                  />
+
                   <label htmlFor="participantId">Participant ID</label>
                   <input
                     id="participantId"
@@ -369,8 +497,8 @@ export default function Dashboard() {
                       <label htmlFor="pcType">Type of PC</label>
                       <select id="pcType" name="pcType" required>
                         <option value="">Select PC type</option>
-                        <option value="Laptop">Hp</option>
-                        <option value="Desktop">Lenovo</option>
+                        <option value="HP">HP</option>
+                        <option value="Lenovo">Lenovo</option>
                       </select>
 
                       <label htmlFor="accessories">Required accessories</label>
