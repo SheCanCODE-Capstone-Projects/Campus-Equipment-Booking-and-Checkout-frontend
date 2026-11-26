@@ -369,8 +369,8 @@ export default function Dashboard() {
                       <label htmlFor="pcType">Type of PC</label>
                       <select id="pcType" name="pcType" required>
                         <option value="">Select PC type</option>
-                        <option value="Laptop">Laptop</option>
-                        <option value="Desktop">Desktop</option>
+                        <option value="Laptop">Hp</option>
+                        <option value="Desktop">Lenovo</option>
                       </select>
 
                       <label htmlFor="accessories">Required accessories</label>
