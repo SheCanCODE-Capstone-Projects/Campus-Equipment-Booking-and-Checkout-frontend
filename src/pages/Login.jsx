@@ -1,5 +1,11 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import {
+  GraduationCap
+} from "lucide-react";
+
 import "../styles/Login.css";
 
 function Login() {
@@ -10,23 +16,23 @@ function Login() {
   return (
     <div className="login-page">
 
-      {/* Header upwards */}
+      {/* Header */}
 
       <header className="login-header">
+
         <div className="brand">
-          <div className="brand-logo">♧</div>
+
+          <div className="brand-logo">
+            <GraduationCap size={30} />
+          </div>
 
           <div className="brand-text">
             <h2>Igire Rwanda Organization</h2>
             <p>EQUIPMENT & GOWN PORTAL</p>
           </div>
+
         </div>
 
-        <div className="header-actions">
-          <a href="#login">Portal Sign In</a>
-          <a href="#assistance">Assistance</a>
-          <div className="user-icon">●</div>
-        </div>
       </header>
 
       {/* Main Login */}
@@ -35,7 +41,11 @@ function Login() {
 
         <section className="login-panel">
 
-          <div className="login-emblem">♧</div>
+          {/* Graduation Emblem */}
+
+          <div className="login-emblem">
+            <GraduationCap size={40} />
+          </div>
 
           <p className="official-label">
             OFFICIAL REGISTRY
@@ -48,7 +58,7 @@ function Login() {
             kit and laboratory equipment inventory.
           </p>
 
-          {/* Access Tabs */}
+          {/* Student and Staff Tabs */}
 
           <div className="access-tabs">
 
@@ -82,6 +92,7 @@ function Login() {
             </label>
 
             <div className="form-input">
+
               <span>@</span>
 
               <input
@@ -90,17 +101,23 @@ function Login() {
                 placeholder="Enter institutional email"
                 required
               />
+
             </div>
 
+            {/* Password */}
+
             <div className="password-label">
+
               <label htmlFor="password">
                 SECURITY KEY / PASSWORD
               </label>
 
               <a href="#forgot">Forgot Key?</a>
+
             </div>
 
             <div className="form-input">
+
               <span>♙</span>
 
               <input
@@ -117,9 +134,13 @@ function Login() {
               >
                 {showPassword ? "Hide" : "◉"}
               </button>
+
             </div>
 
+            {/* Remember Me */}
+
             <label className="remember-me">
+
               <input
                 type="checkbox"
                 checked={rememberMe}
@@ -127,9 +148,15 @@ function Login() {
               />
 
               Keep my session active for 30 days
+
             </label>
 
-            <button type="submit" className="sign-in-button">
+            {/* Sign In Button */}
+
+            <button
+              type="submit"
+              className="sign-in-button"
+            >
               Sign In to Workspace →
             </button>
 
@@ -137,25 +164,29 @@ function Login() {
 
           {/* Registration */}
 
-
           <p className="register-link">
+
             Don't have an active account?
 
-            <a href="#register">
+            <Link to="/register">
               Register as New Trainee →
-            </a>
+            </Link>
+
           </p>
 
-
           {/* Authorization Notice */}
-          
+
           <div className="authorization-box">
-            <h4>ⓘ Authorized IRO Personnel & Cohort UI Only</h4>
+
+            <h4>
+              ⓘ Authorized IRO Personnel & Cohort UI Only
+            </h4>
 
             <p>
               Need assistance with automatic gown or equipment
               checkouts? Contact Campus Registrar.
             </p>
+
           </div>
 
         </section>
@@ -167,3 +198,5 @@ function Login() {
 }
 
 export default Login;
+
+
